@@ -1,0 +1,37 @@
+{
+  "segments": [
+    "virtual_env",
+    "aws_profile",
+    "ssh",
+    "username",
+    "hostname",
+    "cwd",
+    "git",
+    "git_stash",
+    "jobs",
+    "set_term_title",
+    "svn",
+    "newline",
+    "time",
+    "root"
+  ],
+  "mode": "flat",
+  "cwd": {
+    "mode": "plain",
+    "max_depth": 4
+  },
+  "time": {
+    "format": "%H:%M:%S"
+  },
+  "battery": {
+    "always_show_percentage": true,
+    "low_threshold": true
+  },
+  "hostname": {
+      "colorize": false
+  },
+  "vcs": {
+    "show_symbol": true 
+  },
+  "theme": "/home/viet/.config/powerline-shell/themes/custom.py"
+}
