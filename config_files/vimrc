@@ -1,1 +1,99 @@
-/etc/vimrc
+runtime! archlinux.vim
+
+colorscheme meta5 
+
+set encoding=utf-8
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set nu
+set smartindent
+set nowrap
+set smartcase
+set noswapfile
+set nobackup
+set incsearch
+set splitright
+
+set t_Co=256
+
+set colorcolumn=120
+
+call plug#begin("~/.vim/plugged")
+Plug 'vim-utils/vim-man'
+Plug 'mbbill/undotree'
+Plug 'tmhedberg/SimpylFold'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'https://github.com/ycm-core/YouCompleteMe.git'
+Plug 'scrooloose/syntastic'
+Plug 'vim-scripts/The-NERD-tree'
+Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'nvie/vim-flake8'
+Plug 'tpope/vim-fugitive'
+call plug#end()
+
+
+" always show status bar
+set laststatus=2
+filetype on
+
+" lightline colorscheme
+set noshowmode
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+nnoremap <F5> :UndotreeToggle<CR>
+
+
+" NerdTree map
+map <C-n> :NERDTreeToggle<CR>
+
+
+" Auto exit vim if only nerdtree left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Arrow for NerdTree
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let NERDTreeIgnore=['\.pyc$', '\.pyo$', '__pycache__$']
+let NERDTreeMinimalUI = 1
+
+" Auto open NERDTree when vim loads
+" autocmd vimenter * NERDTree
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" python with virtualenv support
+py3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+let python_highlight_all=1
+syntax on
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Map key for executing python script
+autocmd FileType python map <buffer> <F9> :w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR
