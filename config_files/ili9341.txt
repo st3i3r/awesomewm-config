@@ -1,0 +1,36 @@
+git clone https://github.com/juj/fbcp-ili9341.git
+cd fbcp-ili9341
+cd build
+
+cmake -DADAFRUIT_ILI9341_PITFT=ON -DSPI_BUS_CLOCK_DIVISOR=6 -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=7 -DGPIO_TFT_BACKLIGHT=18 -DARMV8A=ON -DBACKLIGHT_CONTROL=ON DSTATISTICS=0 ..
+make -j
+sudo ./fbcp-ili9341
+
+disable overscna
+uncomment dtparam-spi
+
+/etc/rc.local
+sudo /home/pi/fbcp-ili9341/build/fbcp-ili9341 &
+
+
+
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt=320 240 60 1 0 0 0
+hdmi_force_hotplug=1
+\
+
+sudo dpkg --remove --force-remove-reinstreq raspberrypi-kernel
+sudo apt-get install raspberrypi-kernel
+
+
+
+sudo mkdir /usr/src/mk_arcade_joystick_rpi-0.1.5/
+
+sudo cp -a * /usr/src/mk_arcade_joystick_rpi-0.1.5/
+
+export MKVERSION=0.1.5
+
+sudo -E dkms build -m mk_arcade_joystick_rpi -v 0.1.5
+
+sudo -E dkms install -m mk_arcade_joystick_rpi -v 0.1.5
